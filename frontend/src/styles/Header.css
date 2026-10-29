@@ -1,0 +1,269 @@
+/* ================================================================
+   Header.css  –  Auto-hide on scroll-down, reveal on scroll-up
+   Stripe / Linear style — blur intensifies, shadow fades in,
+   padding shrinks when scrolled
+   ================================================================ */
+
+.hdr {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1100;
+  height: var(--header-height, 64px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+
+  /* Default (at top): slightly transparent, minimal shadow */
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.12);
+  box-shadow: none;
+
+  /* Slide + all visual transitions */
+  transform: translateY(0);
+  transition:
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+    background 0.35s ease,
+    backdrop-filter 0.35s ease,
+    -webkit-backdrop-filter 0.35s ease,
+    box-shadow 0.35s ease,
+    border-color 0.35s ease,
+    padding 0.3s ease;
+  will-change: transform;
+}
+
+/* ── Hidden state (scroll down) ────────────────────── */
+.hdr--hidden {
+  transform: translateY(-100%);
+}
+
+/* ── Scrolled state (past top) — heavier glass + shadow ── */
+.hdr--scrolled {
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+  border-bottom-color: rgba(99, 102, 241, 0.18);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.25),
+    0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+/* ── At-bottom state — subtle glow, deeper blur ────── */
+.hdr--at-bottom {
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(22px) saturate(1.4);
+  -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  border-bottom-color: rgba(99, 102, 241, 0.22);
+  box-shadow:
+    0 6px 28px rgba(0, 0, 0, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.1),
+    0 0 0 1px rgba(99, 102, 241, 0.06);
+  animation: hdr-arrive 0.4s ease-out both;
+}
+
+@keyframes hdr-arrive {
+  from {
+    transform: translateY(0) scale(0.985);
+    opacity: 0.9;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* ── Left Section (hamburger + logo) ───────────────── */
+
+.hdr-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* ── Hamburger button ──────────────────────────────── */
+
+.hdr-hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  cursor: pointer;
+  transition: background 0.25s ease, box-shadow 0.25s ease;
+}
+
+.hdr-hamburger:hover {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.15);
+}
+
+.hdr-hamburger-line {
+  display: block;
+  width: 20px;
+  height: 2px;
+  border-radius: 2px;
+  background: #cbd5e1;
+  transition: transform 0.3s ease, opacity 0.3s ease, width 0.3s ease;
+}
+
+.hdr-hamburger:hover .hdr-hamburger-line:nth-child(1) {
+  transform: translateX(-2px);
+}
+.hdr-hamburger:hover .hdr-hamburger-line:nth-child(3) {
+  transform: translateX(2px);
+}
+
+/* ── Logo ──────────────────────────────────────────── */
+
+.hdr-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: opacity 0.2s, transform 0.3s ease;
+}
+.hdr-logo:hover { opacity: 0.85; }
+
+/* Subtle shrink when header is scrolled */
+.hdr--scrolled .hdr-logo {
+  transform: scale(0.96);
+}
+
+.hdr-logo-icon {
+  font-size: 1.55rem;
+  transition: font-size 0.3s ease;
+}
+
+.hdr--scrolled .hdr-logo-icon {
+  font-size: 1.4rem;
+}
+
+.hdr-logo-text {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #e2e8f0;
+  letter-spacing: -.3px;
+  transition: font-size 0.3s ease;
+}
+
+.hdr--scrolled .hdr-logo-text {
+  font-size: 1.15rem;
+}
+
+.hdr-logo-accent {
+  background: linear-gradient(135deg, #818cf8, #06b6d4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Right actions ─────────────────────────────────── */
+
+.hdr-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* user chip */
+.hdr-user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px 5px 5px;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.22);
+  border-radius: 40px;
+}
+
+.hdr-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.82rem;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #06b6d4);
+}
+
+.hdr-user-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* buttons */
+.hdr-btn {
+  padding: 7px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.2s, opacity 0.2s;
+}
+.hdr-btn:hover {
+  transform: translateY(-1px);
+}
+.hdr-btn:active {
+  transform: translateY(0);
+}
+
+.hdr-btn--login {
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.35);
+}
+.hdr-btn--login:hover {
+  box-shadow: 0 4px 18px rgba(99, 102, 241, 0.5);
+}
+
+.hdr-btn--register {
+  background: linear-gradient(135deg, #10b981, #34d399);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+}
+.hdr-btn--register:hover {
+  box-shadow: 0 4px 18px rgba(16, 185, 129, 0.45);
+}
+
+.hdr-btn--logout {
+  background: linear-gradient(135deg, #ef4444, #f87171);
+  color: #fff;
+  box-shadow: 0 2px 10px rgba(239, 68, 68, 0.3);
+}
+.hdr-btn--logout:hover {
+  box-shadow: 0 4px 18px rgba(239, 68, 68, 0.5);
+}
+
+/* ── Responsive ────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .hdr {
+    padding: 0 14px;
+  }
+  .hdr-user-name {
+    display: none;
+  }
+  .hdr-btn {
+    padding: 6px 14px;
+    font-size: 0.8rem;
+  }
+}

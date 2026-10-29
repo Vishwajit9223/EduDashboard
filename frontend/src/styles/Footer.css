@@ -1,0 +1,766 @@
+/* ================================================================
+   Footer.css — Seamless warm-gradient footer with frosted glass FAQ,
+   shrink-on-scroll, micro-interactions, full-width layout, and
+   responsive design. Background inherits the Home section gradient.
+   All animations use CSS transitions (300–400 ms ease-in-out).
+   ================================================================ */
+
+/* ─── Design tokens (scoped) ──────────────────────── */
+.site-footer {
+  --ft-pad-top: 3rem;
+  --ft-pad-x: 2.5rem;
+  --ft-grid-gap: 2.8rem;
+  --ft-logo-size: 1.22rem;
+  --ft-logo-icon: 26px;
+  --ft-title-size: 0.78rem;
+  --ft-body-size: 0.88rem;
+  --ft-small-size: 0.84rem;
+  --ft-faq-title: 1.55rem;
+  --ft-faq-sub: 0.95rem;
+  --ft-faq-gap: 10px;
+  --ft-brand-gap: 0.85rem;
+  --ft-link-gap: 7px;
+  --ft-contact-gap: 10px;
+  --ft-divider-my: 1.2rem;
+  --ft-bottom-py: 1.1rem;
+  --ft-bottom-size: 0.82rem;
+
+  /* Transition shorthand reused everywhere */
+  --ft-ease: 380ms ease-in-out;
+}
+
+/* ─── Base container ──────────────────────────────── */
+
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  margin-top: auto;
+  padding: 0;
+  border-radius: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+  /* Transparent — inherits the warm gradient from .layout-content */
+  background: transparent;
+
+  /* Full-width breakout from .page-container */
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+
+  /* Fade-in entrance — starts hidden */
+  opacity: 0;
+  transform: translateY(30px);
+
+  /* Master transition list — every shrink property */
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    padding var(--ft-ease),
+    margin-top var(--ft-ease);
+}
+
+/* Visible state (IntersectionObserver) */
+.site-footer.footer--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Subtle warm overlay ─────────────────────────── */
+
+.footer-glass-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.06) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(0, 0, 0, 0.04) 100%
+    );
+}
+
+/* ─── Top separator ───────────────────────────────── */
+
+.footer-top-glow {
+  position: absolute;
+  top: 0;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  z-index: 3;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(0, 0, 0, 0.08) 20%,
+      rgba(0, 0, 0, 0.12) 50%,
+      rgba(0, 0, 0, 0.08) 80%,
+      transparent 100%
+    );
+}
+
+/* Soft warm bloom above the line */
+.footer-top-glow::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 10%;
+  right: 10%;
+  height: 8px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 0, 0, 0.03),
+      rgba(0, 0, 0, 0.04),
+      rgba(0, 0, 0, 0.03),
+      transparent
+    );
+  filter: blur(4px);
+}
+
+/* Subtle inner shadow beneath the line */
+.footer-top-glow::after {
+  content: '';
+  position: absolute;
+  top: 1px;
+  left: 12%;
+  right: 12%;
+  height: 20px;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.03) 0%,
+      transparent 100%
+    );
+  pointer-events: none;
+}
+
+/* ─── Floating background accents ─────────────────── */
+
+.footer-bg-accent {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  transition:
+    width var(--ft-ease),
+    height var(--ft-ease);
+}
+
+.footer-bg-accent--right {
+  bottom: 30px;
+  right: -80px;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+  animation: floatAccent 9s ease-in-out infinite;
+}
+
+.footer-bg-accent--left {
+  top: 60px;
+  left: -100px;
+  width: 260px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.08) 0%, transparent 70%);
+  animation: floatAccent 11s ease-in-out infinite reverse;
+}
+
+@keyframes floatAccent {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-18px, -16px) scale(1.06); }
+}
+
+/* ─── Inner content wrapper ───────────────────────── */
+
+.footer-inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--ft-pad-top) var(--ft-pad-x) 0;
+
+  transition:
+    padding var(--ft-ease),
+    max-width var(--ft-ease);
+}
+
+/* ─── Gradient divider (between FAQ & grid) ───────── */
+
+.footer-divider {
+  position: relative;
+  height: 1px;
+  max-width: 960px;
+  margin: var(--ft-divider-my) auto;
+  border-radius: 2px;
+  overflow: hidden;
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(0, 0, 0, 0.10),
+      rgba(0, 0, 0, 0.14),
+      rgba(0, 0, 0, 0.10),
+      transparent
+    );
+  transition: margin var(--ft-ease);
+}
+
+.footer-divider-shimmer {
+  position: absolute;
+  inset: 0;
+  left: -100%;
+  background:
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.55) 50%, transparent 100%);
+  animation: shimmer 3.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* ═════════════════════════════════════════════════════
+   FOOTER GRID — 4-column layout
+   ═════════════════════════════════════════════════════ */
+
+.footer-grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 2.2fr 1fr 1fr 1.3fr;
+  gap: var(--ft-grid-gap);
+  max-width: 1060px;
+  margin: 0 auto 1.2rem;
+  padding: 1.5rem 1rem 0.8rem;
+  transition:
+    gap var(--ft-ease),
+    padding var(--ft-ease);
+}
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ─── Brand column ────────────────────────────────── */
+
+.footer-brand {
+  gap: var(--ft-brand-gap);
+  transition: gap var(--ft-ease);
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--ft-logo-size);
+  font-weight: 800;
+  color: #1e293b;
+  letter-spacing: -0.02em;
+  transition:
+    font-size var(--ft-ease),
+    gap var(--ft-ease);
+}
+
+.footer-logo svg {
+  color: #9a3412;
+  width: var(--ft-logo-icon);
+  height: var(--ft-logo-icon);
+  transition:
+    width var(--ft-ease),
+    height var(--ft-ease),
+    filter var(--ft-ease);
+}
+
+.footer-brand:hover .footer-logo svg {
+  filter: drop-shadow(0 0 8px rgba(154, 52, 18, 0.35));
+}
+
+.footer-desc {
+  font-size: var(--ft-small-size);
+  font-weight: 450;
+  color: #4a3728;
+  line-height: 1.75;
+  max-width: 270px;
+  opacity: 0.85;
+  transition:
+    opacity 0.3s,
+    font-size var(--ft-ease);
+}
+
+.footer-brand:hover .footer-desc {
+  opacity: 1;
+}
+
+/* ─── Social icons ────────────────────────────────── */
+
+.footer-socials {
+  display: flex;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  color: #7c2d12;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  transition:
+    background 0.3s ease-in-out,
+    color 0.3s ease-in-out,
+    box-shadow 0.3s ease-in-out,
+    transform 0.28s ease-in-out,
+    border-color 0.3s ease-in-out;
+}
+
+.social-icon:hover {
+  background: rgba(255, 255, 255, 0.7);
+  color: #9a3412;
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 4px 18px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px) scale(1.1);
+}
+
+/* ─── Column titles ───────────────────────────────── */
+
+.footer-col-title {
+  position: relative;
+  font-size: var(--ft-title-size);
+  font-weight: 600;
+  color: #1e293b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.55rem;
+  transition:
+    font-size var(--ft-ease),
+    margin-bottom var(--ft-ease);
+}
+
+/* Gradient accent underline */
+.footer-col-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #9a3412, #c2410c);
+  transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.footer-col:hover .footer-col-title::after {
+  width: 44px;
+}
+
+/* ─── Links ───────────────────────────────────────── */
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ft-link-gap);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  transition: gap var(--ft-ease);
+}
+
+.footer-link {
+  position: relative;
+  display: inline-block;
+  font-size: var(--ft-body-size);
+  font-weight: 450;
+  color: #5c3a22;
+  cursor: pointer;
+  border: none;
+  background: none;
+  text-align: left;
+  font-family: inherit;
+  padding: 3px 0;
+  overflow: hidden;
+  transition:
+    color 0.32s ease-in-out,
+    transform 0.32s ease-in-out,
+    opacity 0.32s ease-in-out,
+    font-size var(--ft-ease);
+}
+
+/* Sliding underline on hover */
+.footer-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 1.5px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, #9a3412, #c2410c);
+  transition: width 0.38s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.footer-link:hover {
+  color: #1e293b;
+  transform: translateX(4px);
+  opacity: 0.96;
+}
+
+.footer-link:hover::after {
+  width: 100%;
+}
+
+/* ─── Contact ─────────────────────────────────────── */
+
+.footer-contact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ft-contact-gap);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  transition: gap var(--ft-ease);
+}
+
+.footer-contact-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: var(--ft-small-size);
+  font-weight: 450;
+  color: #5c3a22;
+  cursor: default;
+  transition: font-size var(--ft-ease);
+}
+
+.footer-contact-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #9a3412;
+  flex-shrink: 0;
+  transition:
+    color 0.3s ease-in-out,
+    filter 0.3s ease-in-out,
+    transform 0.3s ease-in-out;
+}
+
+/* Icon glow on row hover */
+.footer-contact-item:hover .footer-contact-icon {
+  color: #c2410c;
+  filter: drop-shadow(0 0 6px rgba(194, 65, 12, 0.35));
+  transform: scale(1.12);
+}
+
+.footer-contact-item:hover {
+  color: #1e293b;
+}
+
+/* ═════════════════════════════════════════════════════
+   FAQ SECTION
+   ═════════════════════════════════════════════════════ */
+
+.faq-section {
+  position: relative;
+  z-index: 1;
+  max-width: 740px;
+  margin: 0 auto 1.4rem;
+  padding: 0 1rem;
+  transition:
+    margin var(--ft-ease),
+    padding var(--ft-ease);
+}
+
+.faq-title {
+  font-size: var(--ft-faq-title);
+  font-weight: 800;
+  color: #1e293b;
+  text-align: center;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.45rem;
+  transition:
+    font-size var(--ft-ease),
+    margin-bottom var(--ft-ease);
+}
+
+.faq-subtitle {
+  text-align: center;
+  font-size: var(--ft-faq-sub);
+  font-weight: 400;
+  color: #5c3a22;
+  margin-bottom: 1.8rem;
+  opacity: 0.9;
+  transition:
+    font-size var(--ft-ease),
+    margin-bottom var(--ft-ease);
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ft-faq-gap);
+  transition: gap var(--ft-ease);
+}
+
+.faq-item {
+  background: rgba(255, 255, 255, 0.40);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  overflow: hidden;
+  transition:
+    box-shadow 0.3s ease,
+    border-color 0.3s ease,
+    background 0.3s ease;
+}
+
+.faq-item:hover {
+  box-shadow:
+    0 6px 28px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.52);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 16px 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: left;
+  font-family: inherit;
+  transition: color 0.25s;
+}
+
+.faq-question:hover {
+  color: #9a3412;
+}
+
+.faq-chevron {
+  display: flex;
+  align-items: center;
+  color: #78716c;
+  flex-shrink: 0;
+  transition: color 0.25s;
+}
+
+.faq-item:hover .faq-chevron {
+  color: #c2410c;
+}
+
+.faq-answer-wrapper {
+  overflow: hidden;
+}
+
+.faq-answer {
+  padding: 0 20px 16px;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #4a3728;
+}
+
+/* ─── Bottom bar ──────────────────────────────────── */
+
+.footer-bottom {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 450;
+  color: #6b4c38;
+  padding: var(--ft-bottom-py) 0 1.3rem;
+  max-width: 1060px;
+  margin: 0 auto;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  transition:
+    padding var(--ft-ease),
+    font-size var(--ft-ease);
+}
+
+/* ─── Scroll-to-top button ────────────────────────── */
+
+.scroll-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1200;
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
+  color: #9a3412;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.scroll-to-top:hover {
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  transform: translateY(-2px);
+}
+
+/* ═════════════════════════════════════════════════════
+   SHRINK-ON-SCROLL
+   Toggled via .footer--shrink class from scroll hook.
+   Uses CSS custom-property overrides so every child
+   transitions smoothly via the same --ft-ease timing.
+   ═════════════════════════════════════════════════════ */
+
+.site-footer.footer--shrink {
+  --ft-pad-top: 1.6rem;
+  --ft-grid-gap: 1.6rem;
+  --ft-logo-size: 1.04rem;
+  --ft-logo-icon: 20px;
+  --ft-title-size: 0.72rem;
+  --ft-body-size: 0.82rem;
+  --ft-small-size: 0.78rem;
+  --ft-faq-title: 1.28rem;
+  --ft-faq-sub: 0.85rem;
+  --ft-faq-gap: 7px;
+  --ft-brand-gap: 0.5rem;
+  --ft-link-gap: 4px;
+  --ft-contact-gap: 6px;
+  --ft-divider-my: 0.6rem;
+  --ft-bottom-py: 0.65rem;
+  --ft-bottom-size: 0.76rem;
+  margin-top: 1rem;
+}
+
+.site-footer.footer--shrink .footer-inner {
+  padding-top: var(--ft-pad-top);
+}
+
+.site-footer.footer--shrink .footer-grid {
+  padding: 1rem 1rem 0.5rem;
+}
+
+.site-footer.footer--shrink .faq-section {
+  margin-bottom: 0.6rem;
+}
+
+.site-footer.footer--shrink .faq-subtitle {
+  margin-bottom: 1.1rem;
+}
+
+.site-footer.footer--shrink .footer-bg-accent--right {
+  width: 220px;
+  height: 220px;
+}
+
+.site-footer.footer--shrink .footer-bg-accent--left {
+  width: 160px;
+  height: 160px;
+}
+
+/* ═════════════════════════════════════════════════════
+   RESPONSIVE
+   ═════════════════════════════════════════════════════ */
+
+@media (max-width: 960px) {
+  .footer-grid {
+    grid-template-columns: 1.8fr 1fr 1fr;
+    gap: 2rem;
+  }
+
+  /* Contact column drops to next row, spans all 3 cols */
+  .footer-col:nth-child(4) {
+    grid-column: 1 / -1;
+  }
+
+  .site-footer.footer--shrink .footer-grid {
+    gap: 1.4rem;
+  }
+}
+
+@media (max-width: 700px) {
+  .footer-inner {
+    padding-left: 1.2rem;
+    padding-right: 1.2rem;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.7rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .footer-col:nth-child(4) {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 520px) {
+  .footer-inner {
+    padding: 2rem 1rem 0;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 1.8rem;
+    padding: 1.2rem 0.5rem 0.8rem;
+  }
+
+  .footer-col:nth-child(4) {
+    grid-column: auto;
+  }
+
+  .faq-title  { font-size: 1.2rem; }
+  .faq-question {
+    font-size: 0.87rem;
+    padding: 14px 16px;
+  }
+  .faq-answer {
+    padding: 0 16px 14px;
+    font-size: 0.84rem;
+  }
+
+  .scroll-to-top {
+    bottom: 18px;
+    right: 18px;
+    width: 40px;
+    height: 40px;
+  }
+
+  .footer-bg-accent--right {
+    width: 200px;
+    height: 200px;
+    right: -60px;
+  }
+  .footer-bg-accent--left {
+    display: none;
+  }
+
+  .footer-top-glow {
+    left: 2%;
+    right: 2%;
+  }
+}

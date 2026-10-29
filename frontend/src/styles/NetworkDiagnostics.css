@@ -1,0 +1,229 @@
+/**
+ * Network Diagnostics Styles
+ * Styling for network diagnosis component
+ */
+
+.network-diagnostics {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  border: 2px solid #e0e0e0;
+  max-width: 400px;
+  z-index: 9999;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(450px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.network-diagnostics.diagnostic-healthy {
+  border-color: #27ae60;
+}
+
+.network-diagnostics.diagnostic-warning {
+  border-color: #e74c3c;
+}
+
+.diagnostic-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s ease;
+}
+
+.diagnostic-header:hover {
+  background-color: #f9f9f9;
+}
+
+.diagnostic-status-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.diagnostic-title {
+  flex: 1;
+  margin: 0;
+}
+
+.diagnostic-title h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.diagnostic-title p {
+  margin: 4px 0 0 0;
+  font-size: 12px;
+  color: #666;
+}
+
+.diagnostic-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: #666;
+  padding: 0;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.diagnostic-toggle:hover {
+  color: #333;
+}
+
+.diagnostic-details {
+  padding: 16px;
+  max-height: 600px;
+  overflow-y: auto;
+  background: #f9f9f9;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.diagnostic-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.diagnostic-section h4 {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #666;
+  letter-spacing: 0.5px;
+}
+
+.diagnostic-section pre {
+  margin: 0;
+  padding: 10px;
+  background: white;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  font-size: 11px;
+  overflow-x: auto;
+  font-family: 'Courier New', monospace;
+  max-height: 200px;
+  overflow-y: auto;
+  color: #333;
+}
+
+.diagnostic-success {
+  padding: 12px;
+  background: #eafaf1;
+  border-left: 3px solid #27ae60;
+  border-radius: 6px;
+}
+
+.diagnostic-success p {
+  margin: 6px 0;
+  font-size: 12px;
+  color: #1e8449;
+}
+
+.diagnostic-error {
+  padding: 12px;
+  background: #fcedea;
+  border-left: 3px solid #e74c3c;
+  border-radius: 6px;
+}
+
+.diagnostic-error p {
+  margin: 6px 0;
+  font-size: 12px;
+  color: #c0392b;
+}
+
+.diagnostic-hint {
+  margin-top: 12px;
+  padding: 8px;
+  background: #fff3cd;
+  border-radius: 4px;
+  border-left: 3px solid #f39c12;
+}
+
+.diagnostic-hint h5 {
+  margin: 0 0 8px 0;
+  font-size: 11px;
+  font-weight: 600;
+  color: #856404;
+}
+
+.diagnostic-hint ul {
+  margin: 0;
+  padding-left: 16px;
+  font-size: 11px;
+  color: #856404;
+}
+
+.diagnostic-hint li {
+  margin: 4px 0;
+  line-height: 1.4;
+}
+
+.diagnostic-hint code {
+  background: #f9f0e8;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  color: #c0392b;
+}
+
+.diagnostic-refresh {
+  padding: 10px 16px;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  align-self: center;
+}
+
+.diagnostic-refresh:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.diagnostic-refresh:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .network-diagnostics {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+  }
+  
+  .diagnostic-details {
+    max-height: 400px;
+  }
+}

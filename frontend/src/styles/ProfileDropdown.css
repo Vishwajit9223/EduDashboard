@@ -1,0 +1,251 @@
+/* ================================================================
+   ProfileDropdown.css — Premium glassmorphism dropdown + trigger
+   Floating, soft shadows, micro-interactions, avatar pulse
+   ================================================================ */
+
+/* ── Root wrapper (keeps dropdown positioned) ──────── */
+.pd-root {
+  position: relative;
+}
+
+/* ── Trigger button (avatar + name chip) ───────────── */
+.pd-trigger {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px 5px 5px;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  border-radius: 48px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.pd-trigger:hover {
+  background: rgba(99, 102, 241, 0.18);
+  border-color: rgba(99, 102, 241, 0.35);
+}
+
+.pd-trigger-avatar {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 0.84rem;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #06b6d4);
+  transition: box-shadow 0.3s ease, transform 0.25s ease;
+}
+
+.pd-trigger:hover .pd-trigger-avatar {
+  transform: scale(1.08);
+  box-shadow: 0 0 14px rgba(99, 102, 241, 0.4);
+}
+
+.pd-trigger-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+}
+
+.pd-trigger:hover .pd-trigger-name {
+  color: #e2e8f0;
+}
+
+.pd-trigger-chevron {
+  display: flex;
+  align-items: center;
+  color: #94a3b8;
+  transition: color 0.25s ease;
+}
+
+.pd-trigger:hover .pd-trigger-chevron {
+  color: #c7d2fe;
+}
+
+/* ── Dropdown panel ────────────────────────────────── */
+.pd-dropdown {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 290px;
+  padding: 6px;
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(99, 102, 241, 0.14);
+  border-radius: 16px;
+  box-shadow:
+    0 16px 48px rgba(0, 0, 0, 0.35),
+    0 8px 20px rgba(0, 0, 0, 0.15),
+    0 0 0 1px rgba(255, 255, 255, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  z-index: 2000;
+  transform-origin: top right;
+}
+
+/* ── User info header ──────────────────────────────── */
+.pd-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 12px;
+}
+
+.pd-info-avatar {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #6366f1, #06b6d4);
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.35);
+}
+
+.pd-info-avatar-letter {
+  position: relative;
+  z-index: 1;
+  font-weight: 700;
+  font-size: 1.12rem;
+  color: #fff;
+  line-height: 1;
+}
+
+/* Subtle pulse ring around avatar */
+.pd-avatar-pulse {
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  border: 2px solid rgba(99, 102, 241, 0.35);
+  animation: pd-pulse 2.8s ease-in-out infinite;
+}
+
+@keyframes pd-pulse {
+  0%, 100% { transform: scale(1); opacity: 0.45; }
+  50% { transform: scale(1.1); opacity: 0; }
+}
+
+.pd-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pd-info-name {
+  font-weight: 700;
+  font-size: 0.94rem;
+  color: #f1f5f9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: -0.01em;
+}
+
+.pd-info-email {
+  font-size: 0.78rem;
+  color: #64748b;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Divider ───────────────────────────────────────── */
+.pd-divider {
+  height: 1px;
+  margin: 4px 10px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.08) 30%,
+    rgba(255, 255, 255, 0.08) 70%,
+    transparent
+  );
+}
+
+/* ── Action buttons ────────────────────────────────── */
+.pd-action {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #cbd5e1;
+  font-size: 0.88rem;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+}
+
+.pd-action:hover {
+  color: #fff;
+}
+
+.pd-action-icon {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 9px;
+  background: rgba(99, 102, 241, 0.1);
+  color: #818cf8;
+  transition: background 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pd-action:hover .pd-action-icon {
+  background: rgba(99, 102, 241, 0.18);
+  box-shadow: 0 0 12px rgba(99, 102, 241, 0.2);
+}
+
+/* ── Danger variant (Logout) ───────────────────────── */
+.pd-action--danger {
+  color: #f87171;
+}
+
+.pd-action--danger:hover {
+  color: #fca5a5;
+}
+
+.pd-action-icon--danger {
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+}
+
+.pd-action--danger:hover .pd-action-icon--danger {
+  background: rgba(239, 68, 68, 0.18);
+  box-shadow: 0 0 12px rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+}
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .pd-trigger-name {
+    display: none;
+  }
+  .pd-trigger-chevron {
+    display: none;
+  }
+  .pd-trigger {
+    padding: 4px;
+    border-radius: 50%;
+  }
+  .pd-dropdown {
+    width: 260px;
+    right: -4px;
+  }
+}

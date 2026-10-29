@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # PostgreSQL Database (optional, replace SQLite for production)
+  db:
+    image: postgres:15-alpine
+    container_name: edudb
+    environment:
+      POSTGRES_USER: eduuser
+      POSTGRES_PASSWORD: edupass123
+      POSTGRES_DB: scholarship_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - edunetwork
+
+  # Flask Backend
+  backend:
+    build: ./backend
+    container_name: edu_backend
+    ports:
+      - "5000:5000"
+    environment:
+      FLASK_ENV: production
+      DATABASE_URL: ******db:5432/scholarship_db
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      CORS_ORIGINS: http://localhost:3000,http://frontend:3000
+    depends_on:
+      - db
+    volumes:
+      - ./backend/models:/app/models
+    networks:
+      - edunetwork
+    command: gunicorn -w 4 -b 0.0.0.0:5000 app:app
+
+  # React Frontend
+  frontend:
+    build: ./frontend
+    container_name: edu_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://backend:5000/api
+    depends_on:
+      - backend
+    networks:
+      - edunetwork
+
+volumes:
+  postgres_data:
+
+networks:
+  edunetwork:
+    driver: bridge
